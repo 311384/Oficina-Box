@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Serviço - Auto Mecânica</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link rel="stylesheet" href="./index/index.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Auto Mecânica</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#servicos">Serviços</a></li>
+                <li><a href="index.html#sobre">Sobre</a></li>
+                <li><a href="index.html#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="form-container">
+        <h2>Agendar Serviço</h2>
+        <form id="agendamentoForm" class="agendamento-form" onsubmit="return validateForm(event)">
+            <div class="form-group">
+                <h3>Dados Pessoais</h3>
+                <input type="text" name="nome" placeholder="Nome completo" required>
+                <input type="tel" name="telefone" placeholder="Telefone" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+            </div>
+
+            <div class="form-group">
+                <h3>Dados do Veículo</h3>
+                <input type="text" name="modelo" placeholder="Modelo do veículo" required>
+                <input type="text" name="ano" placeholder="Ano do veículo" required>
+                <input type="text" name="placa" placeholder="Placa do veículo" required>
+            </div>
+
+            <div class="form-group">
+                <h3>Serviço Desejado</h3>
+                <select name="servico" required>
+                    <option value="">Selecione o serviço</option>
+                    <option value="manutencao">Manutenção Preventiva</option>
+                    <option value="reparo">Reparos Gerais</option>
+                    <option value="diagnostico">Diagnóstico</option>
+                </select>
+                <textarea name="descricao" placeholder="Descreva o problema ou serviço necessário" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <h3>Data e Hora Preferencial</h3>
+                <input type="date" name="data" required>
+                <input type="time" name="hora" required>
+            </div>
+
+            <div class="g-recaptcha" data-sitekey="SEU_SITE_KEY_AQUI"></div>
+
+            <button type="submit" class="submit-button">Enviar Agendamento</button>
+        </form>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>Contato</h3>
+                <p>Telefone: (66) 99906-1494</p>
+                <p>Email: nil7626@gmail.com</p>
+                <p>Endereço: Rua Example, 123</p>
+            </div>
+            <div class="social-media">
+
+                <h3>Redes Sociais</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">WhatsApp</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            emailjs.init("SUA_CHAVE_PUBLICA");
+        })();
+
+        function validateForm(event) {
+            event.preventDefault();
+            
+            const response = grecaptcha.getResponse();
+            if (response.length === 0) {
+                alert('Por favor, complete o reCAPTCHA!');
+                return false;
+            }
+            
+            const formData = new FormData(event.target);
+            
+            const templateParams = {
+                to_email: 'contato@automecanica.com',
+                from_name: formData.get('nome'),
+                from_email: formData.get('email'),
+                telefone: formData.get('telefone'),
+                data: formData.get('data'),
+                mensagem: formData.get('descricao')
+            };
+
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    alert('Agendamento enviado com sucesso!');
+                    document.getElementById('agendamentoForm').reset();
+                }, function(error) {
+                    alert('Erro ao enviar agendamento. Por favor, tente novamente.');
+                });
+        }
+    </script>
+</body>
+</html> 
