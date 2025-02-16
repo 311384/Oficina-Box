@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendar Serviço - Auto Mecânica</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <link rel="stylesheet" href="./index/index.css">
+    <!-- Fonte Inter do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Removendo o EmailJS que não é mais necessário -->
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script> -->
+    <link rel="stylesheet" href="./index/agendamento.css">
 </head>
 <body>
     <header>
@@ -24,7 +29,12 @@
 
     <main class="form-container">
         <h2>Agendar Serviço</h2>
-        <form id="agendamentoForm" class="agendamento-form" onsubmit="return validateForm(event)">
+        <form id="agendamentoForm" class="agendamento-form" action="https://formsubmit.co/nil7626@gmail.com" method="POST">
+            <!-- Campos ocultos para configuração do FormSubmit -->
+            <input type="hidden" name="_subject" value="Novo Agendamento de Serviço">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
+            
             <div class="form-group">
                 <h3>Dados Pessoais</h3>
                 <input type="text" name="nome" placeholder="Nome completo" required>
@@ -41,7 +51,7 @@
 
             <div class="form-group">
                 <h3>Serviço Desejado</h3>
-                <select name="servico" required>
+                <select name="servico" title="Selecione o serviço desejado" required>
                     <option value="">Selecione o serviço</option>
                     <option value="manutencao">Manutenção Preventiva</option>
                     <option value="reparo">Reparos Gerais</option>
@@ -52,8 +62,8 @@
 
             <div class="form-group">
                 <h3>Data e Hora Preferencial</h3>
-                <input type="date" name="data" required>
-                <input type="time" name="hora" required>
+                <input type="date" name="data" title="Selecione a data" required>
+                <input type="time" name="hora" title="Selecione o horário" required>
             </div>
 
             <button type="submit" class="submit-button">Enviar Agendamento</button>
@@ -77,34 +87,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        (function() {
-            emailjs.init("SUA_CHAVE_PUBLICA");
-        })();
-
-        function validateForm(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            
-            const templateParams = {
-                to_email: 'contato@automecanica.com',
-                from_name: formData.get('nome'),
-                from_email: formData.get('email'),
-                telefone: formData.get('telefone'),
-                data: formData.get('data'),
-                mensagem: formData.get('descricao')
-            };
-
-            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-                .then(function(response) {
-                    alert('Agendamento enviado com sucesso!');
-                    document.getElementById('agendamentoForm').reset();
-                }, function(error) {
-                    alert('Erro ao enviar agendamento. Por favor, tente novamente.');
-                });
-        }
-    </script>
 </body>
 </html> 
