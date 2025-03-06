@@ -16,13 +16,14 @@ header {
     z-index: 1000;
 }
 
-nav {
+nav {    
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 768px;
     margin: 20 auto;
     gap: 4rem;
+    flex-direction: column;
 }
 
 .logo h1 {

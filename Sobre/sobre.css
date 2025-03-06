@@ -23,6 +23,7 @@ nav {
     align-items: center;
     max-width: 768px;
     margin: 0 auto;
+    flex-direction: column;
     
     
 }
